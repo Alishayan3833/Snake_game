@@ -1,4 +1,4 @@
-# -------------------------------------------- libraris ----------------------------------------------
+# -------------------------------------------- package ----------------------------------------------
 
 from tkinter import *
 from random import randint
@@ -9,7 +9,14 @@ import sys
 
 
 class Snake:
+    """
+    This class is defined for the body of the snake and has attributes and methods
+    """
     def __init__(self):
+        """
+        Body size determines the initial value of the snake at the start of the game, which is fixed = 2
+        squares and coordinates store the coordinates of the snake.
+        """
         self.body_size = BODY_SIZE
         self.coordinates = []
         self.squares = []
@@ -24,6 +31,9 @@ class Snake:
 
 class Food:
     def __init__(self):
+        """
+        This class is for food, which is selected from the canvas method, circle option, you can also use rectangle
+        """
         x = randint(0, (GAME_WIDTH // SPACE_SIZE)-1)*SPACE_SIZE
         y = randint(0, (GAME_HEIGHT // SPACE_SIZE)-1)*SPACE_SIZE
         self.coordinates = [x, y]
@@ -35,6 +45,9 @@ class Food:
 
 
 def next_turn(snake, food):
+    """
+    Direction keys are defined in this function
+    """
     x, y = snake.coordinates[0]
 
     if direction == "up":
@@ -52,6 +65,9 @@ def next_turn(snake, food):
     snake.squares.insert(0, square)
 
     if x == food.coordinates[0] and y == food.coordinates[1]:
+        """
+        The condition causes that if the food is eaten, it will be erased and appear somewhere else, and the lunch points will be added
+        """
         global score
         score += 10
         label.config(text=f"score: {score}")
@@ -69,14 +85,23 @@ def next_turn(snake, food):
 
 
 def check_game_over(snake):
+    """
+    As its name suggests, this function checks when the player loses
+    """
     x, y = snake.coordinates[0]
 
     if x < 0 or x >= GAME_WIDTH:
+        """
+        The condition causes the game to stop if the player collides with the walls
+        """
         return True
     if y < 0 or y >= GAME_HEIGHT:
         return True
 
     for sq in snake.coordinates[1:]:
+        """
+        This for checks the collision of the snake's head with its own body or tail
+        """
         if x == sq[0] and y == sq[1]:
             return True
 
@@ -84,12 +109,18 @@ def check_game_over(snake):
 
 
 def game_over():
+    """
+    If you lose, this function will stop the game and game over!!! prints the
+    """
     canvas.delete(ALL)
     canvas.create_text(canvas.winfo_width() / 2,
                        canvas.winfo_height() / 2, font=("terminal", 30), text="GAME OVER!!!", fill="red", tags="gameover")
 
 
 def change_direction(new_dir):
+    """
+    The direction of the snake's movement is determined
+    """
     global direction
 
     if new_dir == "left":
@@ -107,6 +138,9 @@ def change_direction(new_dir):
 
 
 def restart_program():
+    """
+    The os and sys packages are only used here.
+    """
     path = sys.executable
     os.execl(path, path, *sys.argv)
 
@@ -124,7 +158,7 @@ BACKGROUND_COLOR = "black"
 score = 0
 direction = "down"
 
-# ---------------------------------------------------------------------------------------------
+# ------------------------------------------ designed ---------------------------------------------
 
 window = Tk()
 window.title("Snake Game")
@@ -143,6 +177,10 @@ restart.pack()
 window.update()
 
 # ------------------------------------------ geometry -------------------------------------------
+
+"""
+In geometry, the opening location of the game screen is determined and fixed
+"""
 
 window_width = window.winfo_width()
 window_height = window.winfo_height()
