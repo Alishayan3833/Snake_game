@@ -2,7 +2,7 @@
 
 This game is written in Python
 
-Using the following packages:
+Using the following module:
 
 Tkinter
 
